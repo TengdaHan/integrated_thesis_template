@@ -1,0 +1,129 @@
+\documentclass[12pt,notitlepage]{report}
+\usepackage{fancybox}
+\usepackage[section]{placeins}
+\usepackage{fancyvrb}
+\usepackage{multirow}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{stmaryrd} %llbracket
+\usepackage{pdfpages}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{mdframed}
+\usepackage[toc,page]{appendix}
+\usepackage{lscape}
+\usepackage{changepage}
+\usepackage{helvet}
+\usepackage{xspace}
+\usepackage{pgfgantt}
+\usepackage{rotating}
+\usepackage[graphicx]{realboxes}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{xpunctuate}
+\usepackage{subcaption}
+\usepackage{gensymb}
+\usepackage{epsfig}
+\usepackage{epigraph} 
+\usepackage[a4paper, top = 50mm]{geometry}
+\usepackage[pagebackref=false,breaklinks=true,colorlinks=true,bookmarks=true,hyperfootnotes=false]{hyperref}
+\usepackage[capitalize]{cleveref}
+\input{def}
+
+\usepackage{amssymb}% http://ctan.org/pkg/amssymb
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage[mathscr]{eucal}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{tabu}
+\usepackage{multirow}
+\usepackage{subcaption} 
+\usepackage{caption}
+\usepackage{multicol}% http://ctan.org/pkg/multicols
+\usepackage{booktabs}
+\usepackage{ragged2e}
+\usepackage{appendix} 
+\usepackage{titling}
+\usepackage{bookmark}
+
+\begin{document}
+\input{title}
+\input{chapter/abstract}
+\input{chapter/acknowledgement}
+
+\newpage
+\AddToShipoutPicture{\BackgroundPic}
+\newpage
+\removepagebreak
+
+{
+\hypersetup{linkcolor=tcolor}
+\tableofcontents
+}
+
+\setcounter{tocdepth}{1}
+
+\restorepagebreak
+\newgeometry{scale = 0.7,top = 20mm, bottom = 20mm}
+
+%%% start the main content here
+% declare a global prefix for sec/table/figure reference (e.g. "main:")
+\def\currentprefix{main:}
+\input{chapter/intro}
+
+% the paper-specific reference prefix defined in papers.tex
+\input{chapter/papers}
+
+\bookmarksetup{startatroot}
+
+% restore the global reference prefix
+\def\currentprefix{main:}
+\input{chapter/conclusion}
+
+
+%%% REFERENCES Method1
+% \bibliographystyle{ieee}
+% \bibliography{vgg_bibtex/shortstrings,vgg_bibtex/vgg_local,vgg_bibtex/vgg_other}
+
+%%% REFERENCES Method2
+% JEM: Quote for the top of references (just like a chapter quote if you're using them). Comment to skip.
+% \begin{savequote}[8cm]
+% The first kind of intellectual and artistic personality belongs to the hedgehogs, the second to the foxes \dots
+%   \qauthor{--- Sir Isaiah Berlin \cite{berlin_hedgehog_2013}}
+% \end{savequote}
+
+{
+\setlength{\baselineskip}{-2pt} % JEM: Single-space References
+\setlength\bibitemsep{1.5\itemsep}
+{\renewcommand*\MakeUppercase[1]{#1}%
+\printbibliography[heading=bibintoc,title={\bibtitle}]}
+}
+
+\clearpage
+
+\appendix
+\pagestyle{empty}
+\input{chapter/appendix_authorship}
+
+% Uncomment below to add the signed statement pdf at the end
+% \setlength{\voffset}{0cm}
+% \setlength{\hoffset}{0cm}
+% \includepdf[pages=-]{statement_of_authorship_signed.pdf}
+
+\end{document}

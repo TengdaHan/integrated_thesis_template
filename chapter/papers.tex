@@ -1,0 +1,17 @@
+\chapter{Paper1 Title}\label{chapter:paper1}
+
+The paper has been accepted for publication 
+at the Neural Information Processing Systems (NeurIPS), 2020.
+
+% add prefix to all the \label and \ref
+% import the main tex file from paper directory (e.g. from arxiv)
+{\clearpage
+\def\currentprefix{paper1:}
+\renewcommand*{\input}[1]{\fixedinput{chapter/paper1/#1}}
+\renewcommand*{\includegraphics}[2][]{\fixedincludegraphics[#1]{chapter/paper1/#2}}
+
+\fixedinput{chapter/paper1/main.tex}
+
+\renewcommand*{\input}[1]{\fixedinput{#1}}
+\renewcommand*{\includegraphics}[2][]{\fixedincludegraphics[#1]{#2}}
+}

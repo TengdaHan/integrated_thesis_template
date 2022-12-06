@@ -1,0 +1,321 @@
+%%% BIBLIOGRAPHY SETUP
+%%% Originally from https://github.com/twgr/thesis,
+%%% heavily tweaked by Shangzhe Wu (szwu@robots.ox.ac.uk),
+%%% slightly modified by Tengda Han (htd@robots.ox.ac.uk).
+
+% Note that your bibliography will require some tweaking depending on your department, preferred format, etc.
+% The options included below are just very basic "sciencey" and "humanitiesey" options to get started.
+% If you've not used LaTeX before, I recommend reading a little about biblatex/biber and getting started with it.
+% If you're already a LaTeX pro and are used to natbib or something, modify as necessary.
+% Either way, you'll have to choose and configure an appropriate bibliography format...
+
+% The science-type option: numerical in-text citation with references in order of appearance.
+% \usepackage[style=numeric-comp, sorting=none, backend=biber, doi=false, isbn=false]{biblatex}
+% \newcommand*{\bibtitle}{References}
+
+% The humanities-type option: author-year in-text citation with an alphabetical works cited.
+%\usepackage[style=authoryear, sorting=nyt, backend=biber, maxcitenames=2, useprefix, doi=false, isbn=false]{biblatex}
+%\newcommand*{\bibtitle}{Works Cited}
+
+\usepackage[style=authoryear, sorting=nyt, backend=biber, maxcitenames=2, maxbibnames=99, useprefix, firstinits=false, dashed=false, doi=false, isbn=false, uniquelist=false]{biblatex}
+\DeclareNameAlias{sortname}{first-last}
+% \usepackage[style=ieee, sorting=nyt, backend=biber, firstinits=false, useprefix, doi=false, isbn=false]{biblatex}
+\newcommand*{\bibtitle}{References}
+
+% change parentheses in citations into square brackets, use \parencite{} (https://tex.stackexchange.com/questions/16765/biblatex-author-year-square-brackets)
+\makeatletter
+\newrobustcmd*{\parentexttrack}[1]{%
+  \begingroup
+  \blx@blxinit
+  \blx@setsfcodes
+  \blx@bibopenparen#1\blx@bibcloseparen
+  \endgroup}
+
+\AtEveryCite{%
+  \let\parentext=\parentexttrack%
+  \let\bibopenparen=\bibopenbracket%
+  \let\bibcloseparen=\bibclosebracket}
+\makeatother
+
+% hyperref both name and year in citations (https://tex.stackexchange.com/questions/15951/hyperlink-name-with-biblatex-authoryear-biblatex-1-4b)
+\DeclareFieldFormat{citehyperref}{%
+  \DeclareFieldAlias{bibhyperref}{noformat}% Avoid nested links
+  \bibhyperref{#1}}
+
+\DeclareFieldFormat{textcitehyperref}{%
+  \DeclareFieldAlias{bibhyperref}{noformat}% Avoid nested links
+  \bibhyperref{%
+    #1%
+    \ifbool{cbx:parens}
+      {\bibcloseparen\global\boolfalse{cbx:parens}}
+      {}}}
+
+\savebibmacro{cite}
+\savebibmacro{textcite}
+
+\renewbibmacro*{cite}{%
+  \printtext[citehyperref]{%
+    \restorebibmacro{cite}%
+    \usebibmacro{cite}}}
+
+\renewbibmacro*{textcite}{%
+  \ifboolexpr{
+    ( not test {\iffieldundef{prenote}} and
+      test {\ifnumequal{\value{citecount}}{1}} )
+    or
+    ( not test {\iffieldundef{postnote}} and
+      test {\ifnumequal{\value{citecount}}{\value{citetotal}}} )
+  }
+    {\DeclareFieldAlias{textcitehyperref}{noformat}}
+    {}%
+  \printtext[textcitehyperref]{%
+    \restorebibmacro{textcite}%
+    \usebibmacro{textcite}}}
+
+\renewcommand*{\cite}[1]{\parencite{#1}}
+% \renewbibmacro*{cite}{
+% 	\usebibmacro{parencite}
+% }
+
+% This makes the bibliography left-aligned (not 'justified') and slightly smaller font.
+\renewcommand*{\bibfont}{\raggedright\small}
+
+\AtEveryBibitem{\clearfield{volume}\clearfield{number}\clearfield{page}\clearfield{pages}\clearfield{organization}\clearfield{organisation}}
+
+% add bib source here
+\addbibresource{vgg_bibtex/shortstrings.bib}
+\addbibresource{chapter/paper1/egbib.bib}
+\addbibresource{vgg_bibtex/vgg_other.bib}
+\addbibresource{vgg_bibtex/vgg_local.bib}
+
+%%% BIBLIOGRAPHY SETUP finishes here %%%
+
+
+
+%%% GENERAL
+\newcommand{\centre}[1]{\begin{center} #1 \end{center}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\newcommand{\bs}{\symbol{34}}
+
+\DeclareUnicodeCharacter{00A0}{ }
+
+\let\pagebreakORIG\pagebreak
+\let\clearpageORIG\clearpage
+\let\cleardoublepageORIG\cleardoublepage
+
+\ifx \removepagebreak \undefined
+\newcommand{\removepagebreak}{\renewcommand{\pagebreak}{}\renewcommand{\clearpage}{}\renewcommand{\cleardoublepage}{}}
+\fi
+
+\ifx \restorepagebreak \undefined
+\newcommand{\restorepagebreak}{\renewcommand{\pagebreak}{\pagebreakORIG}\renewcommand{\clearpage}{\clearpageORIG}\renewcommand{\cleardoublepage}{\cleardoublepageORIG}}
+\fi
+% right aside information
+%\usepackage{background}
+%\newcommand\Text{\tiny Dassault Systèmes | Confidential Information}
+%\SetBgColor{black}
+%\SetBgOpacity{1}
+%\SetBgAngle{90}
+%\SetBgPosition{current page.center}
+%\SetBgVshift{-0.60\textwidth}
+%\SetBgScale{1.0}
+%\SetBgContents{\sffamily\Text}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhfoffset[R]{50pt}
+
+\makeatletter
+\DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
+\def\@onedot{\ifx\@let@token.\else.\null\fi\xspace}
+\def\cf{\emph{c.f}\onedot} \def\Cf{\emph{C.f}\onedot}
+\def\cf{\emph{c.f}\onedot} \def\Cf{\emph{C.f}\onedot}
+\def\etc{\emph{etc}\onedot} \def\vs{\emph{vs}\onedot}
+\def\wrt{w.r.t\onedot} \def\dof{d.o.f\onedot}
+\makeatother
+
+\makeatletter
+\let\ps@plain=\ps@fancy
+\makeatother
+
+\providecommand{\eg}[0]{e.g\xperiod}
+\providecommand{\ie}[1]{i.e\xperiod}
+\newcommand{\etal}{\textit{et al}.}
+%\providecommand{\etal}[2]{et al.\xperiod}
+
+
+
+%%% Background Picture
+\usepackage{eso-pic}
+\newcommand\BackgroundPic{%
+	\put(320,5){%
+		\parbox[b][1cm]{\paperwidth}{%
+			\vfill
+			\centering
+			%\includegraphics[width=\paperwidth,height=1cm,%
+			%keepaspectratio]{footer_ox.png}%
+}}}
+
+
+%%% Algorithm
+\algdef{SE}[SUBALG]{Indent}{EndIndent}{}{\algorithmicend\ }%
+\algtext*{Indent}
+\algtext*{EndIndent}
+
+\renewcommand{\baselinestretch}{1.5}
+\lstset{
+	language=c,
+	numbers=left,
+	stepnumber=1,
+	numbersep=10pt,
+	frame=leftline,
+	title=\lstname,                   % show the filename of files included with \lstinputlisting;
+	% also try caption instead of title
+	keywordstyle=\color{blue},          % keyword style
+	commentstyle=\color{dkgreen},       % comment style
+	stringstyle=\color{mauve},         % string literal style
+	escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+	morekeywords={*,...},              % if you want to add more keywords to the set
+	deletekeywords={...}             % if you want to delete keywords from the given language
+}
+
+\lstset{ literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{{\'\i}}}1 {ó}{{\'o}}1 {ö}{{\"o}}1 {ő}{{\H o}}1 {ú}{{\'u}}1 {Ú}{{\'U}}1 {ü}{{\"u}}1 {ű}{{\H u}}1 {Ü}{{\"U}}1 }
+
+\lstset{language=C}
+\lstdefinestyle{customc}{
+	belowcaptionskip=1\baselineskip,
+	breaklines=true,
+	frame=L,
+	xleftmargin=\parindent,
+	language=C,
+	showstringspaces=false,
+	basicstyle=\footnotesize\ttfamily,
+	identifierstyle=\color{black},
+	stringstyle=\color{orange},
+}
+\lstset{escapechar=@,style=customc}
+
+
+
+%%% Custom colors
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codeblue}{rgb}{0.25,0.5,0.5}
+
+\definecolor{mygreen}{RGB}{34,139,34}
+\definecolor{myblue}{rgb}{0.19, 0.55, 0.91}
+\definecolor{googleblue}{RGB}{66,133,244}
+\definecolor{googleorange}{RGB}{255,171,64}
+\definecolor{oxblue}{RGB}{0,33,71}
+\definecolor{tcolor}{RGB}{0,71,153}
+% \definecolor{lcolor}{RGB}{76,126,183}
+\definecolor{lcolor}{RGB}{102,144,193}
+\definecolor{teal}{RGB}{0,128,128}
+
+\lstset{
+	backgroundcolor=\color{white},
+	basicstyle=\fontsize{8.2pt}{8.2pt}\ttfamily\selectfont,
+	columns=fullflexible,
+	breaklines=true,
+	captionpos=b,
+	commentstyle=\color{codeblue},
+	keywordstyle=\color{codegreen},
+	stringstyle=\color{codepurple}
+	%  frame=tb,
+}
+% \usepackage[dvipsnames]{xcolor}
+\definecolor{mygray}{gray}{0.4}
+\newcommand{\app}[0]{{Appendix}}
+
+
+
+% MISC from papers
+\usepackage{dsfont}
+\usepackage{bm}
+\usepackage{parskip}
+\usepackage{cleveref}
+\usepackage{textcomp}
+\usepackage{dblfloatfix}    
+\usepackage{wrapfig,booktabs}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{calc}
+\usepackage{dblfloatfix}    
+\def\viz{\emph{viz}\onedot}
+% \setlength{\tabcolsep}{4.5pt}
+
+\newcommand{\textlongs}{{\fontencoding{TS1}\fontfamily{lmr}\selectfont\char115}}
+\def\viz{\emph{viz}\onedot}
+\newcommand{\bx}{\bm{x}}
+\newcommand{\bp}{\bm{p}}
+\newcommand{\bg}{\bm{g}}
+\newcommand{\bw}{\bm{w}}
+\newcommand{\by}{\bm{y}}
+\newcommand{\Ex}{\mathop{\mathbb{E}}}
+
+\newcommand{\attn}[1]{\textbf{\color{orange}attn\@:~#1}}
+\newcommand{\TODO}[1]{\textcolor{red}{#1}}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\matr}[1]{\mathbf{#1}}
+
+\newcommand{\reals}[1]{\mathbb{R}^{#1}}
+\newcommand{\set}[1]{\left\{{#1}\right\}}
+\newcommand{\transpose}[1]{#1^\top}
+\newcommand*\rot{\rotatebox{90}}
+
+\newcommand{\seqset}{\mathcal{S}}
+\newcommand{\enorm}[1]{\left\|{#1}\right\|_2}
+\DeclareMathOperator{\loss}{loss}
+\newcommand{\binary}[1]{\mathbb{B}^{#1}}
+\newcommand{\one}{\mathbf{1}}
+
+% \DeclareMathOperator*{\argmax}{argmax}   % argmax
+% \DeclareMathOperator*{\argmin}{argmin}   % argmin
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+\providecommand{\etc}[0]{\emph{etc.}}
+\providecommand{\ie}[0]{\emph{i.e\xperiod}}
+\providecommand{\eg}[0]{\emph{e.g\xperiod}}
+\providecommand{\etal}[0]{\emph{et al\xperiod}}
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{6} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{6}  % for normal
+
+\hypersetup{
+	colorlinks=true,
+	pdfborder={0 0 0},
+	citecolor=teal,
+}
+
+
+
+%%% APPENDIX
+% JEM: combine all of the commands you run before appendices start
+\newcommand{\startappendices}
+  {\appendix\adjustmtc\noappendicestocpagenum\addappheadtotoc\appendixpage}
+
+
+
+%%% EASY REFERENCE
+%%% HTD: To add paper from original directory, define the scope for \ref and \label command
+\def\currentprefix{main:}
+\def\globalprefix{main:}
+\let\fixedref\ref
+\newcommand{\globalref}[1]{\fixedref{\globalprefix:#1}}
+
+% macro to define a local label
+\renewcommand*{\label}[1]{\label{\currentprefix:#1}}
+% macro to use a local reference
+\renewcommand*{\ref}[1]{\ref{\currentprefix:#1}}
+\renewcommand*{\cref}[1]{\cref{\currentprefix:#1}}
+
+% relative \input command
+\let\fixedinput\input 
+\let\fixedincludegraphics\includegraphics 
