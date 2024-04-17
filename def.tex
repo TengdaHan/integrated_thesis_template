@@ -308,13 +308,15 @@
 \def\currentprefix{main:}
 \def\globalprefix{main:}
 \let\fixedref\ref
+\let\fixedlabel\label
+\let\fixedcref\cref
 \newcommand{\globalref}[1]{\fixedref{\globalprefix:#1}}
 
 % macro to define a local label
-\renewcommand*{\label}[1]{\label{\currentprefix:#1}}
+\renewcommand*{\label}[1]{\fixedlabel{\currentprefix:#1}}
 % macro to use a local reference
-\renewcommand*{\ref}[1]{\ref{\currentprefix:#1}}
-\renewcommand*{\cref}[1]{\cref{\currentprefix:#1}}
+\renewcommand*{\ref}[1]{\fixedref{\currentprefix:#1}}
+\renewcommand*{\cref}[1]{\fixedcref{\currentprefix:#1}}
 
 % relative \input command
 \let\fixedinput\input 
