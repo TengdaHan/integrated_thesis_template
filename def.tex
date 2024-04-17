@@ -316,7 +316,9 @@
 \renewcommand*{\label}[1]{\fixedlabel{\currentprefix:#1}}
 % macro to use a local reference
 \renewcommand*{\ref}[1]{\fixedref{\currentprefix:#1}}
-\renewcommand*{\cref}[1]{\fixedcref{\currentprefix:#1}}
+% \renewcommand*{\cref}[1]{\fixedcref{\currentprefix:#1}}
+\pretocmd{\cref}{\edef\arg{#1}\edef\prefixedcref{\currentprefix\arg}\expandafter\def\expandafter\arg\expandafter{\prefixedcref}}{}{}
+
 
 % relative \input command
 \let\fixedinput\input 
