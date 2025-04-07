@@ -252,7 +252,6 @@
 \def\viz{\emph{viz}\onedot}
 % \setlength{\tabcolsep}{4.5pt}
 
-\newcommand{\textlongs}{{\fontencoding{TS1}\fontfamily{lmr}\selectfont\char115}}
 \def\viz{\emph{viz}\onedot}
 \newcommand{\bx}{\bm{x}}
 \newcommand{\bp}{\bm{p}}
@@ -278,8 +277,6 @@
 \newcommand{\binary}[1]{\mathbb{B}^{#1}}
 \newcommand{\one}{\mathbf{1}}
 
-% \DeclareMathOperator*{\argmax}{argmax}   % argmax
-% \DeclareMathOperator*{\argmin}{argmin}   % argmin
 \DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
 \providecommand{\etc}[0]{\emph{etc.}}
 \providecommand{\ie}[0]{\emph{i.e\xperiod}}
@@ -307,14 +304,19 @@
 %%% HTD: To add paper from original directory, define the scope for \ref and \label command
 \def\currentprefix{main:}
 \def\globalprefix{main:}
+
+% Save original commands
 \let\fixedref\ref
 \let\fixedlabel\label
-\let\fixedcref\cref
+% \let\fixedcref\cref
+
+% Define global reference command
 \newcommand{\globalref}[1]{\fixedref{\globalprefix:#1}}
 
-% macro to define a local label
+% Redefine label to include current prefix for all environments
 \renewcommand*{\label}[1]{\fixedlabel{\currentprefix:#1}}
-% macro to use a local reference
+
+% Redefine ref to include current prefix
 \renewcommand*{\ref}[1]{\fixedref{\currentprefix:#1}}
 % \renewcommand*{\cref}[1]{\fixedcref{\currentprefix:#1}}
 \pretocmd{\cref}{\edef\arg{#1}\edef\prefixedcref{\currentprefix\arg}\expandafter\def\expandafter\arg\expandafter{\prefixedcref}}{}{}

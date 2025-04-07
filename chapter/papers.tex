@@ -3,15 +3,28 @@
 The paper has been accepted for publication 
 at the Neural Information Processing Systems (NeurIPS), 2020.
 
+% ######## YOU NEED TO EDIT THE FOLLOWING ########
+
 % add prefix to all the \label and \ref
 % import the main tex file from paper directory (e.g. from arxiv)
 {\clearpage
+
+% after changing the prefix, we need to redefine the \ref and \label
 \def\currentprefix{paper1:}
+\renewcommand*{\ref}[1]{\fixedref{\currentprefix:#1}}
+\renewcommand*{\label}[1]{\fixedlabel{\currentprefix:#1}}
+
+% redefine the \input and \includegraphics to give the correct path
 \renewcommand*{\input}[1]{\fixedinput{chapter/paper1/#1}}
 \renewcommand*{\includegraphics}[2][]{\fixedincludegraphics[#1]{chapter/paper1/#2}}
 
+% import the main tex file from paper directory (e.g. from arxiv)   
 \fixedinput{chapter/paper1/main.tex}
 
+% restore the original \input and \includegraphics
 \renewcommand*{\input}[1]{\fixedinput{#1}}
 \renewcommand*{\includegraphics}[2][]{\fixedincludegraphics[#1]{#2}}
 }
+
+
+% repeat the same for other papers
