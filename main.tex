@@ -85,6 +85,9 @@
 %%% start the main content here
 % declare a global prefix for sec/table/figure reference (e.g. "main:")
 \def\currentprefix{main:}
+\renewcommand*{\ref}[1]{\fixedref{\currentprefix:#1}}
+\renewcommand*{\label}[1]{\fixedlabel{\currentprefix:#1}}
+
 \input{chapter/intro}
 
 % the paper-specific reference prefix defined in papers.tex
@@ -94,6 +97,9 @@
 
 % restore the global reference prefix
 \def\currentprefix{main:}
+\renewcommand*{\ref}[1]{\fixedref{\currentprefix:#1}}
+\renewcommand*{\label}[1]{\fixedlabel{\currentprefix:#1}}
+
 \input{chapter/conclusion}
 
 
